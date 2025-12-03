@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../components/custom_widgets.dart';
 import '../data/database_helper.dart';
 import '../models/quiz_models.dart';
@@ -17,10 +18,19 @@ class ResultScreen extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Resultado salvo no banco de dados!')),
         );
-        Navigator.popUntil(context, ModalRoute.withName('/home'));
+        // Volta para home - corrigido para não quebrar
+        Navigator.of(
+          context,
+        ).popUntil((route) => route.isFirst || route.settings.name == '/home');
       }
     } catch (e) {
       logger.e("Failed to save result: $e");
+      if (context.mounted) {
+        // Mesmo com erro, volta para home
+        Navigator.of(
+          context,
+        ).popUntil((route) => route.isFirst || route.settings.name == '/home');
+      }
     }
   }
 
@@ -37,8 +47,8 @@ class ResultScreen extends StatelessWidget {
               Text(
                 'Parabéns',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 48),
               Container(
@@ -51,9 +61,10 @@ class ResultScreen extends StatelessWidget {
                   children: [
                     Text(
                       '${result.score} / ${result.totalQuestions}',
-                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      style: Theme.of(context).textTheme.displayMedium
+                          ?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: const Color(0xFF212121),
                           ),
                     ),
                     const SizedBox(height: 8),

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
 import '../models/quiz_models.dart';
 import '../utils/app_logger.dart';
 
@@ -20,19 +23,20 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
+    // Initialize FFI for desktop platforms
+    if (Platform.isLinux || Platform.isWindows) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+
     String path = join(await getDatabasesPath(), 'respondai_database.db');
     logger.i("Initializing Database at $path");
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _onCreate,
-    );
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
   Future<void> _onCreate(Database db, int version) async {
     logger.i("Creating Database Tables");
-    await db.execute(
-      '''
+    await db.execute('''
       CREATE TABLE quiz_results(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         topicId TEXT,
@@ -40,8 +44,7 @@ class DatabaseHelper {
         totalQuestions INTEGER,
         date TEXT
       )
-      ''',
-    );
+      ''');
   }
 
   Future<int> insertQuizResult(QuizResult result) async {

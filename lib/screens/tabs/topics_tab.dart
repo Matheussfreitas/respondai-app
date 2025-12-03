@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../data/database_helper.dart';
 import '../../data/mock_service.dart';
 import '../../models/quiz_models.dart';
@@ -48,11 +49,7 @@ class _TopicsTabState extends State<TopicsTab> {
           topic: topic,
           isCompleted: isCompleted,
           onTap: () async {
-            await Navigator.pushNamed(
-              context,
-              '/quiz',
-              arguments: topic,
-            );
+            await Navigator.pushNamed(context, '/quiz', arguments: topic);
             // Refresh status when returning
             _loadCompletedTopics();
           },
@@ -75,11 +72,13 @@ class _TopicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -96,13 +95,29 @@ class _TopicCard extends StatelessWidget {
               flex: 3,
               child: Container(
                 decoration: BoxDecoration(
-                  color: isCompleted ? Colors.green[100] : Colors.grey[200],
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                  color: isCompleted
+                      ? (isDark
+                            ? const Color(0xFF1B5E20)
+                            : const Color(0xFFC8E6C9))
+                      : (isDark ? const Color(0xFF424242) : Colors.grey[200]),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
                 ),
                 child: Center(
                   child: isCompleted
-                      ? const Icon(Icons.check_circle, size: 40, color: Colors.green)
-                      : const Icon(Icons.image, size: 40, color: Colors.grey),
+                      ? Icon(
+                          Icons.check_circle,
+                          size: 40,
+                          color: isDark
+                              ? const Color(0xFF81C784)
+                              : const Color(0xFF2E7D32),
+                        )
+                      : Icon(
+                          Icons.image,
+                          size: 40,
+                          color: isDark ? Colors.grey[600] : Colors.grey,
+                        ),
                 ),
               ),
             ),
@@ -116,8 +131,8 @@ class _TopicCard extends StatelessWidget {
                     Text(
                       topic.title,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -125,8 +140,10 @@ class _TopicCard extends StatelessWidget {
                     Text(
                       topic.description,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.grey[600],
-                          ),
+                        color: isDark
+                            ? Colors.grey[400]
+                            : const Color(0xFF616161),
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -134,9 +151,14 @@ class _TopicCard extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                            color: Theme.of(
+                              context,
+                            ).primaryColor.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -154,7 +176,9 @@ class _TopicCard extends StatelessWidget {
                             'Feito',
                             style: TextStyle(
                               fontSize: 10,
-                              color: Colors.green[700],
+                              color: isDark
+                                  ? const Color(0xFF81C784)
+                                  : const Color(0xFF2E7D32),
                               fontWeight: FontWeight.bold,
                             ),
                           )

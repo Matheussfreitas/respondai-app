@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../utils/app_logger.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -16,7 +18,9 @@ class _ProfileTabState extends State<ProfileTab> {
 
   Future<void> _pickImage() async {
     try {
-      final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.gallery,
+      );
       if (pickedFile != null) {
         setState(() {
           _profileImage = File(pickedFile.path);
@@ -42,7 +46,9 @@ class _ProfileTabState extends State<ProfileTab> {
                 CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.grey[300],
-                  backgroundImage: _profileImage != null ? FileImage(_profileImage!) : null,
+                  backgroundImage: _profileImage != null
+                      ? FileImage(_profileImage!)
+                      : null,
                   child: _profileImage == null
                       ? const Icon(Icons.person, size: 60, color: Colors.grey)
                       : null,
@@ -56,7 +62,11 @@ class _ProfileTabState extends State<ProfileTab> {
                       color: Theme.of(context).primaryColor,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                    child: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                   ),
                 ),
               ],
@@ -65,9 +75,9 @@ class _ProfileTabState extends State<ProfileTab> {
           const SizedBox(height: 16),
           Text(
             'Usuário RespondAI',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const Text('Estudante'),
           const SizedBox(height: 32),
@@ -79,7 +89,9 @@ class _ProfileTabState extends State<ProfileTab> {
             leading: const Icon(Icons.settings),
             title: const Text('Configurações'),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed('/settings');
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
@@ -94,23 +106,33 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   Widget _buildStatCard(BuildContext context, String label, String value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[200]!),
+        border: Border.all(
+          color: isDark ? const Color(0xFF424242) : Colors.grey[200]!,
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+          Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: isDark ? Colors.grey[300] : Colors.black87,
+            ),
+          ),
           Text(
             value,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

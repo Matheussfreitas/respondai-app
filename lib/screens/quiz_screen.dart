@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../components/custom_widgets.dart';
 import '../data/mock_service.dart';
 import '../models/quiz_models.dart';
@@ -27,7 +28,8 @@ class _QuizScreenState extends State<QuizScreen> {
   void _answerQuestion() {
     if (_selectedOptionIndex == null) return;
 
-    if (_selectedOptionIndex == _questions[_currentQuestionIndex].correctOptionIndex) {
+    if (_selectedOptionIndex ==
+        _questions[_currentQuestionIndex].correctOptionIndex) {
       _score++;
     }
 
@@ -76,8 +78,8 @@ class _QuizScreenState extends State<QuizScreen> {
               Text(
                 question.text,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 32),
               ...List.generate(question.options.length, (index) {
@@ -93,7 +95,9 @@ class _QuizScreenState extends State<QuizScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: isSelected ? Theme.of(context).primaryColor : const Color(0xFFE0956D),
+                        color: isSelected
+                            ? Theme.of(context).primaryColor
+                            : const Color(0xFFFFCCBC),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
@@ -124,7 +128,9 @@ class _QuizScreenState extends State<QuizScreen> {
                             child: Text(
                               question.options[index],
                               style: TextStyle(
-                                color: isSelected ? Colors.white : Colors.black87,
+                                color: isSelected
+                                    ? Colors.white
+                                    : const Color(0xFF212121),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -137,8 +143,12 @@ class _QuizScreenState extends State<QuizScreen> {
               }),
               const SizedBox(height: 32),
               CustomButton(
-                text: _currentQuestionIndex == _questions.length - 1 ? 'Finalizar' : 'Próximo',
-                onPressed: _selectedOptionIndex != null ? _answerQuestion : () {},
+                text: _currentQuestionIndex == _questions.length - 1
+                    ? 'Finalizar'
+                    : 'Próximo',
+                onPressed: _selectedOptionIndex != null
+                    ? _answerQuestion
+                    : () {},
               ),
             ],
           ),
@@ -147,7 +157,10 @@ class _QuizScreenState extends State<QuizScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.folder), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: ''),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            label: '',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
         ],
         currentIndex: 1, // Just visual
