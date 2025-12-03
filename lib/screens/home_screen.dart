@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(_titles[_currentIndex]),
         actions: [
-          if (_currentIndex == 0)''
+          if (_currentIndex == 0)
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {},
