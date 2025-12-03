@@ -4,33 +4,25 @@ RespondAI é um aplicativo Flutter modular para realização de questionários (
 
 ## 📱 Funcionalidades
 
-*   **Login**: Acesso seguro (simulado) ao aplicativo.
-*   **Temas**: Seleção de diferentes categorias de questionários.
+*   **Login**: Interface moderna com suporte a recuperação de senha e registro.
+*   **Navegação**: Barra inferior intuitiva com abas de Temas, Criação e Perfil.
+*   **Temas**: Visualização em Grid com indicadores de dificuldade e **status de conclusão**.
 *   **Perfil**: Personalização de foto de perfil usando a **Câmera/Galeria** (Recurso Nativo).
-*   **Quiz**: Interface interativa para responder perguntas com barra de progresso.
-*   **Resultados**: Exibição de pontuação e persistência de dados local.
+*   **Quiz**: Interface fluida e responsiva para responder perguntas.
+*   **Resultados**: Persistência de histórico via **SQLite**.
 *   **Modo Noturno**: Suporte automático a temas claro e escuro.
 
-## 🛠 Tecnologias e Requisitos Atendidos
+## 🛠 Tecnologias
 
-*   **Modularização**: Código organizado em `screens`, `components`, `models`, `data`.
-*   **Persistência**: Uso do **SQLite** (`sqflite`) para salvar histórico de resultados.
-*   **Recurso Nativo**: Uso do `image_picker` para acesso à galeria de fotos.
-*   **Acessibilidade**: Paleta de cores com contraste > 4.5:1 (WCAG).
-*   **Logging**: Sistema de logs implementado com o pacote `logger`.
-*   **Layout**: Responsivo (uso de `Expanded`, `GridView`) e adaptável a orientação.
+*   **Flutter & Dart**
+*   **SQLite** (Persistência)
+*   **Image Picker** (Recurso Nativo)
+*   **Google Fonts** (Tipografia)
+*   **Logger** (Depuração)
 
-## 📂 Estrutura do Projeto
+## 📂 Documentação Detalhada
 
-```
-lib/
-├── components/      # Widgets reutilizáveis (Botões, Inputs, Cards)
-├── data/            # Camada de dados (MockService, DatabaseHelper)
-├── models/          # Modelos de dados (Topic, Question, QuizResult)
-├── screens/         # Telas do aplicativo (Login, Topics, Quiz, Result)
-├── utils/           # Utilitários (Tema, Logger)
-└── main.dart        # Ponto de entrada e rotas
-```
+Para uma explicação detalhada de cada arquivo e pasta do projeto, consulte o arquivo [PROJECT_DOCS.md](PROJECT_DOCS.md).
 
 ## 🚀 Como Rodar
 
@@ -43,10 +35,3 @@ lib/
     ```bash
     flutter run
     ```
-
-## 🧪 Testes
-
-Para rodar os testes automatizados:
-```bash
-flutter test
-```

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'models/quiz_models.dart';
+import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/quiz_screen.dart';
 import 'screens/result_screen.dart';
-import 'screens/topics_screen.dart';
 import 'utils/app_theme.dart';
 
 void main() {
@@ -24,7 +24,7 @@ class RespondAIApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoginScreen(),
-        '/topics': (context) => const TopicsScreen(),
+        '/home': (context) => const HomeScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/quiz') {

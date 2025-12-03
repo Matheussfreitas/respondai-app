@@ -64,4 +64,14 @@ class DatabaseHelper {
       );
     });
   }
+
+  Future<List<String>> getCompletedTopicIds() async {
+    Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'quiz_results',
+      columns: ['topicId'],
+      distinct: true,
+    );
+    return maps.map((e) => e['topicId'] as String).toList();
+  }
 }

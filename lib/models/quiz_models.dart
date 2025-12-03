@@ -1,14 +1,18 @@
 class Topic {
   final String id;
   final String title;
-  final String icon; // Using a string to represent icon name or asset path if needed, but for now we might map it in UI
+  final String icon; 
   final int questionCount;
+  final String description;
+  final String difficulty;
 
   Topic({
     required this.id,
     required this.title,
     this.icon = '',
     required this.questionCount,
+    required this.description,
+    required this.difficulty,
   });
 }
 

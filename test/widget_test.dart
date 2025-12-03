@@ -7,7 +7,8 @@ void main() {
     await tester.pumpWidget(const RespondAIApp());
 
     // Verify that the login screen appears
-    expect(find.text('Login'), findsOneWidget);
+    expect(find.text('Login'), findsNothing); // Login text removed in favor of Logo/Title
+    expect(find.text('RespondAI'), findsOneWidget);
     expect(find.text('Entrar'), findsOneWidget);
   });
 }

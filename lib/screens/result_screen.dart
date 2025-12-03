@@ -17,7 +17,7 @@ class ResultScreen extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Resultado salvo no banco de dados!')),
         );
-        Navigator.popUntil(context, ModalRoute.withName('/topics'));
+        Navigator.popUntil(context, ModalRoute.withName('/home'));
       }
     } catch (e) {
       logger.e("Failed to save result: $e");
