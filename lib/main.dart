@@ -40,10 +40,7 @@ class _RespondAIAppState extends State<RespondAIApp> {
           _themeMode = ThemeMode.values[themeIndex];
         });
       }
-    } catch (e) {
-      // Ignora erro se houver valor inválido salvo
-      // App inicia com tema padrão (system)
-    }
+    } catch (e) {}
   }
 
   void updateTheme(ThemeMode mode) {

@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(_titles[_currentIndex]),
         actions: [
-          if (_currentIndex == 0) // Only show search/filter on Topics tab
+          if (_currentIndex == 0)''
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {},
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _tabs[_currentIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
-        indicatorColor: Colors.orange[200], // Lighter orange for identity
+        indicatorColor: Colors.orange[200],
         onDestinationSelected: (index) {
           setState(() {
             _currentIndex = index;

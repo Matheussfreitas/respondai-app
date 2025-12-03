@@ -45,8 +45,6 @@ class QuizResult {
     required this.date,
   });
 
-  // Convert a QuizResult into a Map. The keys must correspond to the names of the
-  // columns in the database.
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -57,8 +55,6 @@ class QuizResult {
     };
   }
 
-  // Implement toString to make it easier to see information about
-  // each quiz result when using the print statement.
   @override
   String toString() {
     return 'QuizResult{id: $id, topicId: $topicId, score: $score, totalQuestions: $totalQuestions, date: $date}';

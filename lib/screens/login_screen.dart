@@ -9,7 +9,6 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   void _login(BuildContext context) {
-    // Mock login logic
     final email = _emailController.text;
     final password = _passwordController.text;
 
@@ -39,7 +38,6 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Logo Placeholder
                 Container(
                   height: 120,
                   width: 120,
@@ -48,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    Icons.school, // Placeholder icon
+                    Icons.school,
                     size: 60,
                     color: Theme.of(context).primaryColor,
                   ),

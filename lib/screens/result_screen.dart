@@ -18,7 +18,6 @@ class ResultScreen extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Resultado salvo no banco de dados!')),
         );
-        // Volta para home - corrigido para não quebrar
         Navigator.of(
           context,
         ).popUntil((route) => route.isFirst || route.settings.name == '/home');
@@ -26,7 +25,6 @@ class ResultScreen extends StatelessWidget {
     } catch (e) {
       logger.e("Failed to save result: $e");
       if (context.mounted) {
-        // Mesmo com erro, volta para home
         Navigator.of(
           context,
         ).popUntil((route) => route.isFirst || route.settings.name == '/home');
@@ -78,7 +76,6 @@ class ResultScreen extends StatelessWidget {
                 onPressed: () => _saveResult(context),
               ),
               const SizedBox(height: 16),
-              // Debug button to view logs/db could go here
             ],
           ),
         ),
