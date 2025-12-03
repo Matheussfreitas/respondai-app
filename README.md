@@ -1,16 +1,52 @@
-# respondai_app
+# RespondAI
 
-A new Flutter project.
+RespondAI é um aplicativo Flutter modular para realização de questionários (quizzes), desenvolvido como parte da disciplina de Dispositivos Móveis.
 
-## Getting Started
+## 📱 Funcionalidades
 
-This project is a starting point for a Flutter application.
+*   **Login**: Acesso seguro (simulado) ao aplicativo.
+*   **Temas**: Seleção de diferentes categorias de questionários.
+*   **Perfil**: Personalização de foto de perfil usando a **Câmera/Galeria** (Recurso Nativo).
+*   **Quiz**: Interface interativa para responder perguntas com barra de progresso.
+*   **Resultados**: Exibição de pontuação e persistência de dados local.
+*   **Modo Noturno**: Suporte automático a temas claro e escuro.
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠 Tecnologias e Requisitos Atendidos
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+*   **Modularização**: Código organizado em `screens`, `components`, `models`, `data`.
+*   **Persistência**: Uso do **SQLite** (`sqflite`) para salvar histórico de resultados.
+*   **Recurso Nativo**: Uso do `image_picker` para acesso à galeria de fotos.
+*   **Acessibilidade**: Paleta de cores com contraste > 4.5:1 (WCAG).
+*   **Logging**: Sistema de logs implementado com o pacote `logger`.
+*   **Layout**: Responsivo (uso de `Expanded`, `GridView`) e adaptável a orientação.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📂 Estrutura do Projeto
+
+```
+lib/
+├── components/      # Widgets reutilizáveis (Botões, Inputs, Cards)
+├── data/            # Camada de dados (MockService, DatabaseHelper)
+├── models/          # Modelos de dados (Topic, Question, QuizResult)
+├── screens/         # Telas do aplicativo (Login, Topics, Quiz, Result)
+├── utils/           # Utilitários (Tema, Logger)
+└── main.dart        # Ponto de entrada e rotas
+```
+
+## 🚀 Como Rodar
+
+1.  Clone o repositório.
+2.  Instale as dependências:
+    ```bash
+    flutter pub get
+    ```
+3.  Execute o aplicativo:
+    ```bash
+    flutter run
+    ```
+
+## 🧪 Testes
+
+Para rodar os testes automatizados:
+```bash
+flutter test
+```
