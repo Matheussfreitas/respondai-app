@@ -54,7 +54,6 @@ export default function Login() {
             <Text
               style={{
                 fontSize: 50,
-                fontWeight: '700',
                 color: '#fff',
                 fontFamily: 'Sansation-Bold',
               }}
@@ -148,6 +147,7 @@ const styles = StyleSheet.create({
   input: {
     borderRadius: 10,
     padding: 14,
+    fontFamily: 'Sansation-Regular',
     fontSize: 16,
     fontWeight: '600',
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
