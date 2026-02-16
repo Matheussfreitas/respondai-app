@@ -37,7 +37,7 @@ export default function Register() {
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <GrainyGradient
         style={StyleSheet.absoluteFillObject}
-        colors={['#e9e8e5', '#2563EB', '#7C3AED', '#D1A5F0']}
+         colors={['#D1A5F0', '#7C3AED', '#e9e8e5', '#2563EB']}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -50,7 +50,7 @@ export default function Register() {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View style={{ flex: 1, alignItems: 'center', marginTop: 50 }}>
+          <View style={{ flex: 1, alignItems: 'center', gap: 10, marginTop: 50 }}>
             <Text
               style={{
                 fontSize: 50,
@@ -60,8 +60,25 @@ export default function Register() {
             >
               RespondAI
             </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: '#fff',
+                fontFamily: 'Sansation-Bold',
+              }}
+            >
+              Create your account!
+            </Text>
           </View>
           <View style={styles.formContainer}>
+            <TextInput
+              placeholder="Name"
+              placeholderTextColor="#7C3AED"
+              style={styles.input}
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="default"
+            />
             <TextInput
               placeholder="Email"
               placeholderTextColor="#7C3AED"
@@ -77,6 +94,13 @@ export default function Register() {
               style={styles.input}
               autoCapitalize="none"
               autoCorrect={false}
+            />
+            <TextInput
+              placeholder="Phone"
+              placeholderTextColor="#7C3AED"
+              style={styles.input}
+              autoCorrect={false}
+              keyboardType="phone-pad"
             />
             <TouchableOpacity
               onPress={() => {

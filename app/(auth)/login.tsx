@@ -52,7 +52,7 @@ export default function Login() {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View style={{ flex: 1, alignItems: 'center', marginTop: 50 }}>
+          <View style={{ flex: 1, alignItems: 'center', gap: 10, marginTop: 50 }}>
             <Text
               style={{
                 fontSize: 50,
@@ -61,6 +61,15 @@ export default function Login() {
               }}
             >
               RespondAI
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: '#fff',
+                fontFamily: 'Sansation-Bold',
+              }}
+            >
+              Acess your account!
             </Text>
           </View>
           <View style={styles.formContainer}>
