@@ -1,7 +1,6 @@
 import GrainyGradient from '@/components/ui/organisms/grainy-gradient';
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useForm } from 'react-hook-form';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -19,20 +18,19 @@ const oAuthProviders = [
     name: 'Google',
     icon: <AntDesign name="google" size={20} color="#7C3AED" />,
     onPress: () => {
-      console.log('Login with Google');
+      console.log('Register with Google');
     },
   },
   {
     name: 'Github',
     icon: <AntDesign name="github" size={20} color="#7C3AED" />,
     onPress: () => {
-      console.log('Login with Github');
+      console.log('Register with Github');
     },
   },
 ];
 
-export default function Login() {
-  const { register, handleSubmit, setValue } = useForm();
+export default function Register() {
   const router = useRouter();
 
   return (
@@ -82,7 +80,7 @@ export default function Login() {
             />
             <TouchableOpacity
               onPress={() => {
-                console.log('Login');
+                console.log('Register');
               }}
               style={styles.button}
             >
@@ -94,11 +92,11 @@ export default function Login() {
                   fontFamily: 'Sansation-Bold',
                 }}
               >
-                LOGIN
+                REGISTER
               </Text>
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={styles.text}>Or login with</Text>
+              <Text style={styles.text}>Or register with</Text>
             </View>
             <View style={styles.oAuthContainer}>
               {oAuthProviders.map((provider) => (
@@ -113,14 +111,14 @@ export default function Login() {
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <Text style={styles.text}>
-                Don't have an account?{' '}
+                Already have an account?{' '}
                 <Text
                   onPress={() => {
-                    router.push('/(auth)/register');
+                    router.push('/(auth)/login');
                   }}
                   style={{ fontWeight: '700', textDecorationLine: 'underline' }}
                 >
-                  Sign Up
+                  Sign In
                 </Text>
               </Text>
             </View>
