@@ -1,11 +1,11 @@
-import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
+import React from 'react';
 import { Pressable } from 'react-native';
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { useColorScheme } from '@/components/useColorScheme';
+import Colors from '@/constants/Colors';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -25,11 +25,12 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
-      }}>
+      }}
+    >
       <Tabs.Screen
-        name="Quizzes"
+        name="index"
         options={{
-          title: 'Tab One',
+          title: 'Quizzes',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
@@ -48,14 +49,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="Criar"
+        name="createQuizScreen"
         options={{
           title: 'Criar Quiz',
-          tabBarIcon: ({ color }) => <TabBarIcon name="plus-circle" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="plus-circle" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="Configurações"
+        name="configScreen"
         options={{
           title: 'Configurações',
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,

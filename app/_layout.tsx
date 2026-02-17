@@ -51,7 +51,7 @@ function useAuth() {
   useEffect(() => {
     setTimeout(() => {
       setIsReady(true);
-      // setUser("User Logado"); // Descomente para testar logado
+      setUser("User Logado"); // Descomente para testar logado
     }, 1000);
   }, []);
 
