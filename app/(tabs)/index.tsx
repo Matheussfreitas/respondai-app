@@ -7,7 +7,8 @@ const quizzes = [
   {
     id: 1,
     title: 'React Native Essentials',
-    description: 'Teste seus conhecimentos sobre os fundamentos do React Native.',
+    description:
+      'Teste seus conhecimentos sobre os fundamentos do React Native.',
     level: 'Básico',
     questionsCount: 10,
     imageUrl: require('@/assets/images/react-native.png'),
@@ -24,9 +25,18 @@ const quizzes = [
     id: 3,
     title: 'Expo Router Basics',
     description: 'Aprenda a navegar entre telas usando Expo Router.',
-    level: 'Intermediário',
+    level: 'Médio',
     questionsCount: 8,
     imageUrl: require('@/assets/images/splash.png'),
+  },
+  {
+    id: 4,
+    title: 'React Native Essentials',
+    description:
+      'Teste seus conhecimentos sobre os fundamentos do React Native.',
+    level: 'Básico',
+    questionsCount: 10,
+    imageUrl: require('@/assets/images/react-native.png'),
   },
 ];
 
@@ -38,20 +48,21 @@ export default function QuizzesScreen() {
         numColumns={2}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{
-          padding: 20,
-          gap:20,
+          padding: 16,
         }}
         columnWrapperStyle={{
-          gap: 10,
+          justifyContent: 'space-between',
         }}
         renderItem={({ item }) => (
-          <QuizCard
-            title={item.title}
-            description={item.description}
-            level={item.level}
-            questionsCount={item.questionsCount}
-            imageUrl={item.imageUrl}
-          />
+          <View style={{ width: '49%', marginBottom: 16 }}>
+            <QuizCard
+              title={item.title}
+              description={item.description}
+              level={item.level}
+              questionsCount={item.questionsCount}
+              imageUrl={item.imageUrl}
+            />
+          </View>
         )}
       />
     </View>

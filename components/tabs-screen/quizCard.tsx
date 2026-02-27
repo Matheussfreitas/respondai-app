@@ -18,42 +18,51 @@ export default function QuizCard({
   return (
     <View
       style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 10,
-        padding: 10,
-        maxWidth: 180,
         width: '100%',
-        maxHeight: 300,
-        height: '100%',
+        backgroundColor: '#fff',
+        borderRadius: 16,
+        padding: 12,
+        marginBottom: 16,
+        elevation: 4,
       }}
     >
       <Image
         source={imageUrl}
-        style={{ width: '100%', height: 100, borderRadius: 10 }}
+        style={{ width: '100%', height: 140, borderRadius: 12, }}
+        resizeMode="cover"
       />
+
+      <Text style={{ fontWeight: '600', fontSize: 16, marginTop: 10 }}>
+        {title}
+      </Text>
+
+      <Text
+        numberOfLines={2}
+        style={{ marginTop: 6, fontSize: 13, color: '#666' }}
+      >
+        {description}
+      </Text>
 
       <View
         style={{
-          flex: 1,
-          width: '100%',
-          marginTop: 10,
+          flexDirection: 'row',
           justifyContent: 'space-between',
+          marginTop: 12,
+          alignItems: 'center',
         }}
       >
-        <View>
-          <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{title}</Text>
-          <Text style={{ marginTop: 5 }}>{description}</Text>
-        </View>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            backgroundColor: '#EEF2FF',
+            paddingHorizontal: 8,
+            paddingVertical: 4,
+            borderRadius: 8,
           }}
         >
-          <Text>{level}</Text>
-          <Text>{questionsCount}</Text>
+          <Text style={{ fontSize: 12, fontWeight: '500' }}>{level}</Text>
         </View>
+
+        <Text style={{ fontSize: 12, color: '#888' }}>{questionsCount} questões</Text>
       </View>
     </View>
   );
