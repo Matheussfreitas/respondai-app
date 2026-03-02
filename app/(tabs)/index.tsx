@@ -6,7 +6,7 @@ import QuizCard from '@/components/tabs-screen/quizCard';
 const quizzes = [
   {
     id: 1,
-    title: 'React Native Essentials',
+    title: 'RN Essentials',
     description:
       'Teste seus conhecimentos sobre os fundamentos do React Native.',
     level: 'Básico',
@@ -19,7 +19,7 @@ const quizzes = [
     description: 'Domine os conceitos avançados de JavaScript e TypeScript.',
     level: 'Avançado',
     questionsCount: 15,
-    imageUrl: require('@/assets/images/splash.png'),
+    imageUrl: require('@/assets/images/background-2.png'),
   },
   {
     id: 3,
@@ -27,16 +27,16 @@ const quizzes = [
     description: 'Aprenda a navegar entre telas usando Expo Router.',
     level: 'Médio',
     questionsCount: 8,
-    imageUrl: require('@/assets/images/splash.png'),
+    imageUrl: require('@/assets/images/background-1.png'),
   },
   {
     id: 4,
-    title: 'React Native Essentials',
+    title: 'Style Essentials',
     description:
       'Teste seus conhecimentos sobre os fundamentos do React Native.',
     level: 'Básico',
     questionsCount: 10,
-    imageUrl: require('@/assets/images/react-native.png'),
+    imageUrl: require('@/assets/images/background-3.png'),
   },
 ];
 
