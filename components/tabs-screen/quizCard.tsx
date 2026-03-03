@@ -32,13 +32,13 @@ export default function QuizCard({
         resizeMode="cover"
       />
 
-      <Text style={{ fontWeight: '600', fontSize: Math.max(12, 20 - title.length / 2), marginTop: 10 }}>
+      <Text style={{ fontWeight: '600', fontSize: Math.max(14, 20 - title.length / 2), marginTop: 10 }}>
         {title}
       </Text>
 
       <Text
         numberOfLines={2}
-        style={{ marginTop: 6, fontSize: 13, color: '#666' }}
+        style={{ marginTop: 6, fontSize: 12, color: '#666' }}
       >
         {description}
       </Text>

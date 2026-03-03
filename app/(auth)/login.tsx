@@ -92,7 +92,7 @@ export default function Login() {
             <TouchableOpacity
               onPress={() => {
                 console.log('Login');
-                router.push('/(tabs)/index');
+                router.push('/(tabs)');
               }}
               style={styles.button}
             >

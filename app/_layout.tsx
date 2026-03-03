@@ -85,7 +85,7 @@ function RootLayoutNav() {
     if (!user && !inAuthGroup) {
       router.replace('/(auth)/login');
     } else if (user && inAuthGroup) {
-      router.replace('/(tabs)/quizzes');
+      router.replace('/(tabs)');
     }
   }, [user, segments, isReady]);
 

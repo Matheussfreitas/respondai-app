@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { FlatList, StyleSheet } from 'react-native';
 
 import { View } from '@/components/Themed';
@@ -6,7 +7,7 @@ import QuizCard from '@/components/tabs-screen/quizCard';
 const quizzes = [
   {
     id: 1,
-    title: 'RN Essentials',
+    title: 'React Native Essentials',
     description:
       'Teste seus conhecimentos sobre os fundamentos do React Native.',
     level: 'Básico',
@@ -42,7 +43,12 @@ const quizzes = [
 
 export default function QuizzesScreen() {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['#f7f8fb', '#7C3AED']}
+      start={{ x: 0.2, y: 0.2 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
       <FlatList
         data={quizzes}
         numColumns={2}
@@ -54,7 +60,7 @@ export default function QuizzesScreen() {
           justifyContent: 'space-between',
         }}
         renderItem={({ item }) => (
-          <View style={{ width: '49%', marginBottom: 16 }}>
+          <View style={{ width: '49%', marginBottom: 16, backgroundColor: 'transparent' }}>
             <QuizCard
               title={item.title}
               description={item.description}
@@ -65,9 +71,10 @@ export default function QuizzesScreen() {
           </View>
         )}
       />
-    </View>
+    </LinearGradient>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

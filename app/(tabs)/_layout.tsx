@@ -1,67 +1,90 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
+import { Tabs } from 'expo-router';
 import React from 'react';
-import { Pressable } from 'react-native';
 
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { useColorScheme } from '@/components/useColorScheme';
-import Colors from '@/constants/Colors';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
+  size?: number;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={24} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#7c3aed',
+        tabBarInactiveTintColor: '#8e8e93',
+        tabBarActiveBackgroundColor: 'transparent',
+        tabBarInactiveBackgroundColor: 'transparent',
+
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
       }}
     >
       <Tabs.Screen
-        name="quizzes"
+        name="index"
         options={{
           title: 'Quizzes',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          headerTitleAlign: 'center',
+          headerTitle: 'RespondAI',
+          headerTitleStyle: {
+            fontFamily: 'Sansation-Bold',
+            fontSize: 26,
+            fontWeight: '600',
+          },
+          headerStyle: { backgroundColor: '#f7f8fb' },    
+          tabBarLabelStyle: {
+            fontWeight: '600',
+          },
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              name={focused ? 'list-alt' : 'list'}
+              color={color}
+              size={focused ? 24 : 22}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="createQuizScreen"
         options={{
-          title: 'Criar Quiz',
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="plus-circle" color={color} />
+          title: 'Crie seu quiz',
+          headerTitleAlign: 'center',
+          tabBarLabelStyle: {
+            fontWeight: '600',
+          },
+
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              name={focused ? 'plus-circle' : 'plus'}
+              color={color}
+              size={focused ? 24 : 22}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="configScreen"
         options={{
-          title: 'Configurações',
-          tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
+          title: 'Minha conta',
+          headerTitleAlign: 'center',
+          tabBarLabelStyle: {
+            fontWeight: '600',
+          },
+
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              name={focused ? 'user-circle' : 'user'}
+              color={color}
+              size={focused ? 24 : 22}
+            />
+          ),
         }}
       />
     </Tabs>
