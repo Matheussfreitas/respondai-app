@@ -1,10 +1,19 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
+import { useAuth } from '@/context/authContext';
+import { useMeQuery } from '@/hooks/queries/useMeQuery';
 
 export default function ConfigScreen() {
+  const router = useRouter();
+  const { handleLogout } = useAuth();
+  const { data: meData, isLoading: isLoadingMe, error: meError } = useMeQuery({
+    retry: false,
+  });
+
   const [notifications, setNotifications] = useState(true);
   const [soundEffects, setSoundEffects] = useState(true);
   const [autoSync, setAutoSync] = useState(false);
@@ -30,7 +39,9 @@ export default function ConfigScreen() {
             <View style={styles.headerText}>
               <Text style={styles.title}>Configurações</Text>
               <Text style={styles.subtitle}>
-                Ajuste preferências e personalize sua experiência.
+                {isLoadingMe
+                  ? 'Carregando dados da conta...'
+                  : meData?.email || 'Ajuste preferências e personalize sua experiência.'}
               </Text>
             </View>
           </View>
@@ -137,9 +148,17 @@ export default function ConfigScreen() {
         >
           <Text style={styles.footerTitle}>Sessão atual</Text>
           <Text style={styles.footerDescription}>
-            Última sincronização há 2 horas. Tudo certo por aqui.
+            {meError
+              ? meError.message
+              : meData?.message || 'Última sincronização há 2 horas. Tudo certo por aqui.'}
           </Text>
-          <Pressable style={styles.primaryButton}>
+          <Pressable
+            style={styles.primaryButton}
+            onPress={async () => {
+              await handleLogout();
+              router.replace('/(auth)/login');
+            }}
+          >
             <Text style={styles.primaryButtonText}>Sair da conta</Text>
           </Pressable>
         </View>

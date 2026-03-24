@@ -7,11 +7,11 @@ import {
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
-import { AuthContextProvider } from '@/context/authContext';
+import { AuthContextProvider, useAuth } from '@/context/authContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export { ErrorBoundary } from 'expo-router';
@@ -48,20 +48,6 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-function useAuth() {
-  const [user, setUser] = useState<string | null>(null);
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsReady(true);
-      setUser('User Logado'); // Descomente para testar logado
-    }, 1000);
-  }, []);
-
-  return { user, isReady };
-}
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -73,33 +59,40 @@ const queryClient = new QueryClient({
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const { user, isReady } = useAuth();
-  const segments = useSegments();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isReady) return;
-
-    const inAuthGroup = segments[0] === '(auth)';
-
-    if (!user && !inAuthGroup) {
-      router.replace('/(auth)/login');
-    } else if (user && inAuthGroup) {
-      router.replace('/(tabs)');
-    }
-  }, [user, segments, isReady]);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
-          <Stack>
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          </Stack>
+          <RootNavigator />
         </AuthContextProvider>
       </QueryClientProvider>
     </ThemeProvider>
+  );
+}
+
+function RootNavigator() {
+  const { isAuthenticated, loading } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loading) return;
+
+    const inAuthGroup = segments[0] === '(auth)';
+
+    if (!isAuthenticated && !inAuthGroup) {
+      router.replace('/(auth)/login');
+    } else if (isAuthenticated && inAuthGroup) {
+      router.replace('/(tabs)');
+    }
+  }, [isAuthenticated, segments, loading]);
+
+  return (
+    <Stack>
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+    </Stack>
   );
 }

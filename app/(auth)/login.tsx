@@ -1,7 +1,9 @@
 import GrainyGradient from '@/components/ui/organisms/grainy-gradient';
+import { useAuth } from '@/context/authContext';
+import { useLoginMutation } from '@/hooks/mutations/useLoginMutation';
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -32,8 +34,22 @@ const oAuthProviders = [
 ];
 
 export default function Login() {
-  const { register, handleSubmit, setValue } = useForm();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { setAuthSession } = useAuth();
+  const loginMutation = useLoginMutation();
   const router = useRouter();
+
+  async function onSubmit() {
+    try {
+      const response = await loginMutation.mutateAsync({ email, password });
+      setAuthSession(response.user, response.token);
+      router.replace('/(tabs)');
+    } catch {
+      // A mensagem de erro já é exibida por loginMutation.error.
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
@@ -69,7 +85,7 @@ export default function Login() {
                 fontFamily: 'Sansation-Bold',
               }}
             >
-              Acess your account!
+              Access your account!
             </Text>
           </View>
           <View style={styles.formContainer}>
@@ -80,6 +96,8 @@ export default function Login() {
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="email-address"
+              value={email}
+              onChangeText={setEmail}
             />
             <TextInput
               placeholder="Password"
@@ -88,13 +106,18 @@ export default function Login() {
               style={styles.input}
               autoCapitalize="none"
               autoCorrect={false}
+              value={password}
+              onChangeText={setPassword}
             />
+
+            {loginMutation.error ? (
+              <Text style={styles.errorText}>{loginMutation.error.message}</Text>
+            ) : null}
+
             <TouchableOpacity
-              onPress={() => {
-                console.log('Login');
-                router.push('/(tabs)');
-              }}
+              onPress={onSubmit}
               style={styles.button}
+              disabled={loginMutation.isPending}
             >
               <Text
                 style={{
@@ -104,7 +127,7 @@ export default function Login() {
                   fontFamily: 'Sansation-Bold',
                 }}
               >
-                LOGIN
+                {loginMutation.isPending ? 'LOGANDO...' : 'LOGIN'}
               </Text>
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -174,6 +197,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     marginTop: 5,
+    opacity: 1,
   },
   oAuthContainer: {
     flexDirection: 'row',
@@ -195,5 +219,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Sansation-Regular',
     justifyContent: 'center',
     marginTop: 10,
+  },
+  errorText: {
+    color: '#FEE2E2',
+    fontFamily: 'Sansation-Bold',
+    fontSize: 13,
+    textAlign: 'center',
   },
 });

@@ -1,47 +1,54 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, Text } from 'react-native';
 
 import { View } from '@/components/Themed';
 import QuizCard from '@/components/tabs-screen/quizCard';
+import { useQuizzesQuery } from '@/hooks/queries/useQuizzesQuery';
 
-const quizzes = [
+const fallbackQuizzes = [
   {
-    id: 1,
+    id: 'fallback-1',
     title: 'React Native Essentials',
-    description:
-      'Teste seus conhecimentos sobre os fundamentos do React Native.',
-    level: 'Básico',
-    questionsCount: 10,
-    imageUrl: require('@/assets/images/react-native.png'),
+    content: 'Teste seus conhecimentos sobre os fundamentos do React Native.',
+    difficulty: 'easy' as const,
+    number_questions: 10,
   },
   {
-    id: 2,
+    id: 'fallback-2',
     title: 'JavaScript Avançado',
-    description: 'Domine os conceitos avançados de JavaScript e TypeScript.',
-    level: 'Avançado',
-    questionsCount: 15,
-    imageUrl: require('@/assets/images/background-2.png'),
+    content: 'Domine os conceitos avançados de JavaScript e TypeScript.',
+    difficulty: 'hard' as const,
+    number_questions: 15,
   },
   {
-    id: 3,
+    id: 'fallback-3',
     title: 'Expo Router Basics',
-    description: 'Aprenda a navegar entre telas usando Expo Router.',
-    level: 'Médio',
-    questionsCount: 8,
-    imageUrl: require('@/assets/images/background-1.png'),
+    content: 'Aprenda a navegar entre telas usando Expo Router.',
+    difficulty: 'medium' as const,
+    number_questions: 8,
   },
   {
-    id: 4,
+    id: 'fallback-4',
     title: 'Style Essentials',
-    description:
-      'Teste seus conhecimentos sobre os fundamentos do React Native.',
-    level: 'Básico',
-    questionsCount: 10,
-    imageUrl: require('@/assets/images/background-3.png'),
+    content: 'Teste seus conhecimentos sobre os fundamentos do React Native.',
+    difficulty: 'easy' as const,
+    number_questions: 10,
   },
 ];
 
+function difficultyLabel(level: 'easy' | 'medium' | 'hard') {
+  if (level === 'easy') return 'Básico';
+  if (level === 'medium') return 'Médio';
+  return 'Avançado';
+}
+
 export default function QuizzesScreen() {
+  const { data, isLoading, error } = useQuizzesQuery({
+    retry: false,
+  });
+
+  const quizzes = data?.length ? data : fallbackQuizzes;
+
   return (
     <LinearGradient
       colors={['#f7f8fb', '#7C3AED']}
@@ -49,6 +56,9 @@ export default function QuizzesScreen() {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
+      {!!error ? <Text style={styles.errorText}>{error.message}</Text> : null}
+      {isLoading ? <Text style={styles.loadingText}>Carregando quizzes...</Text> : null}
+
       <FlatList
         data={quizzes}
         numColumns={2}
@@ -63,10 +73,10 @@ export default function QuizzesScreen() {
           <View style={{ width: '49%', marginBottom: 16, backgroundColor: 'transparent' }}>
             <QuizCard
               title={item.title}
-              description={item.description}
-              level={item.level}
-              questionsCount={item.questionsCount}
-              imageUrl={item.imageUrl}
+              description={item.content}
+              level={difficultyLabel(item.difficulty)}
+              questionsCount={item.number_questions}
+              imageUrl={require('@/assets/images/background-1.png')}
             />
           </View>
         )}
@@ -75,15 +85,21 @@ export default function QuizzesScreen() {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  loadingText: {
+    color: '#ffffff',
+    fontFamily: 'Sansation-Bold',
+    marginTop: 16,
+  },
+  errorText: {
+    color: '#FEE2E2',
+    fontFamily: 'Sansation-Bold',
+    marginTop: 16,
+    paddingHorizontal: 16,
   },
 });

@@ -3,15 +3,47 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, TextInput } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
+import { useCreateQuizMutation } from '@/hooks/mutations/useCreateQuizMutation';
 
 const difficultyOptions = ['Básico', 'Intermediário', 'Avançado'];
 
 export default function CreateQuizScreen() {
+  const [theme, setTheme] = useState('');
+  const [description, setDescription] = useState('');
   const [difficulty, setDifficulty] = useState(difficultyOptions[0]);
   const [questionCount, setQuestionCount] = useState(10);
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const createQuizMutation = useCreateQuizMutation();
 
   const canDecrease = questionCount > 5;
   const canIncrease = questionCount < 30;
+
+  function toApiDifficulty(value: string): 'easy' | 'medium' | 'hard' {
+    if (value === 'Básico') return 'easy';
+    if (value === 'Intermediário') return 'medium';
+    return 'hard';
+  }
+
+  async function handleCreateQuiz() {
+    setFeedback(null);
+
+    if (!theme.trim()) {
+      setFeedback('Informe o tema do quiz.');
+      return;
+    }
+
+    try {
+      const response = await createQuizMutation.mutateAsync({
+        tema: theme.trim(),
+        numQuestoes: questionCount,
+        dificuldade: toApiDifficulty(difficulty),
+      });
+
+      setFeedback(`${response.message} ID: ${response.quiz}`);
+    } catch {
+      // A mensagem de erro já é exposta por createQuizMutation.error.
+    }
+  }
 
   return (
     <LinearGradient
@@ -44,6 +76,8 @@ export default function CreateQuizScreen() {
                 placeholder="Ex: React Native Essentials"
                 placeholderTextColor="#9ca3af"
                 style={styles.input}
+                value={theme}
+                onChangeText={setTheme}
               />
             </View>
             <View
@@ -59,6 +93,8 @@ export default function CreateQuizScreen() {
                 style={[styles.input, styles.inputMultiline]}
                 multiline
                 numberOfLines={3}
+                value={description}
+                onChangeText={setDescription}
               />
             </View>
           </View>
@@ -144,7 +180,16 @@ export default function CreateQuizScreen() {
           </Pressable>
         </View> */}
 
-        <Pressable style={styles.primaryButton}>
+        {feedback ? <Text style={styles.feedbackText}>{feedback}</Text> : null}
+        {createQuizMutation.error ? (
+          <Text style={styles.errorText}>{createQuizMutation.error.message}</Text>
+        ) : null}
+
+        <Pressable
+          style={styles.primaryButton}
+          onPress={handleCreateQuiz}
+          disabled={createQuizMutation.isPending}
+        >
           <Text style={styles.primaryButtonText}>Criar Quiz</Text>
         </Pressable>
       </ScrollView>
@@ -327,5 +372,15 @@ const styles = StyleSheet.create({
     color: '#111827',
     fontWeight: '700',
     fontSize: 14,
+  },
+  feedbackText: {
+    fontSize: 13,
+    color: '#166534',
+    fontWeight: '600',
+  },
+  errorText: {
+    fontSize: 13,
+    color: '#b91c1c',
+    fontWeight: '600',
   },
 });

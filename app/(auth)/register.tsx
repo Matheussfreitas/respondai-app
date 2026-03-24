@@ -1,6 +1,8 @@
 import GrainyGradient from '@/components/ui/organisms/grainy-gradient';
+import { useRegisterMutation } from '@/hooks/mutations/useRegisterMutation';
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -31,13 +33,38 @@ const oAuthProviders = [
 ];
 
 export default function Register() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const registerMutation = useRegisterMutation();
+  const [localError, setLocalError] = useState<string | null>(null);
+
   const router = useRouter();
+
+  async function onRegister() {
+    setLocalError(null);
+
+    if (!name || !email || !password) {
+      setLocalError('Preencha nome, email e senha.');
+      return;
+    }
+
+    try {
+      const response = await registerMutation.mutateAsync({ name, email, password });
+      if (response) {
+        router.replace('/(auth)/login');
+      }
+    } catch {
+      // A mensagem de erro já é exibida por registerMutation.error.
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <GrainyGradient
         style={StyleSheet.absoluteFillObject}
-         colors={['#D1A5F0', '#7C3AED', '#e9e8e5', '#2563EB']}
+        colors={['#D1A5F0', '#7C3AED', '#e9e8e5', '#2563EB']}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -75,9 +102,11 @@ export default function Register() {
               placeholder="Name"
               placeholderTextColor="#7C3AED"
               style={styles.input}
-              autoCapitalize="none"
+              autoCapitalize="words"
               autoCorrect={false}
               keyboardType="default"
+              value={name}
+              onChangeText={setName}
             />
             <TextInput
               placeholder="Email"
@@ -86,6 +115,8 @@ export default function Register() {
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="email-address"
+              value={email}
+              onChangeText={setEmail}
             />
             <TextInput
               placeholder="Password"
@@ -94,19 +125,19 @@ export default function Register() {
               style={styles.input}
               autoCapitalize="none"
               autoCorrect={false}
+              value={password}
+              onChangeText={setPassword}
             />
-            <TextInput
-              placeholder="Phone"
-              placeholderTextColor="#7C3AED"
-              style={styles.input}
-              autoCorrect={false}
-              keyboardType="phone-pad"
-            />
+
+            {localError ? <Text style={styles.errorText}>{localError}</Text> : null}
+            {registerMutation.error ? (
+              <Text style={styles.errorText}>{registerMutation.error.message}</Text>
+            ) : null}
+
             <TouchableOpacity
-              onPress={() => {
-                console.log('Register');
-              }}
+              onPress={onRegister}
               style={styles.button}
+              disabled={registerMutation.isPending}
             >
               <Text
                 style={{
@@ -116,7 +147,7 @@ export default function Register() {
                   fontFamily: 'Sansation-Bold',
                 }}
               >
-                REGISTER
+                {registerMutation.isPending ? 'REGISTRANDO...' : 'REGISTER'}
               </Text>
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -207,5 +238,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Sansation-Regular',
     justifyContent: 'center',
     marginTop: 10,
+  },
+  errorText: {
+    color: '#FEE2E2',
+    fontFamily: 'Sansation-Bold',
+    fontSize: 13,
+    textAlign: 'center',
   },
 });

@@ -7,7 +7,10 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "dev": "expo start --dev-client"
+    "dev": "expo start --dev-client --host lan",
+    "dev:tunnel": "expo start --dev-client --host tunnel",
+    "dev:localhost": "expo start --dev-client --host localhost",
+    "dev:clear": "expo start --dev-client --host tunnel --clear"
   },
   "dependencies": {
     "@expo-google-fonts/sansation": "^0.4.0",
